@@ -118,12 +118,16 @@ void mySplitCommandLine(int numArguments, char *arguments[],UStringVector &parts
 #endif
 
   { // define P7ZIP_HOME_DIR
+#ifdef __OS2__
+    putenv("P7ZIP_HOME_DIR=/@unixroot/usr/lib/p7zip/");
+#else
     static char p7zip_home_dir[MAX_PATH];
     AString dir,name;
     my_windows_split_path(arguments[0],dir,name);
     snprintf(p7zip_home_dir,sizeof(p7zip_home_dir),"P7ZIP_HOME_DIR=%s/",(const char *)dir);
     p7zip_home_dir[sizeof(p7zip_home_dir)-1] = 0;
     putenv(p7zip_home_dir);
+#endif
   }
 
 #ifdef ENV_HAVE_LOCALE

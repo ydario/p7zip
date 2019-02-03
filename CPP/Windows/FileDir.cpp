@@ -871,7 +871,11 @@ FString GetModuleDirPrefix()
     return MultiByteToUnicodeString(p7zip_home_dir,CP_ACP);
   }
 
+#ifdef __OS2__
+  return FTEXT("/@unixroot/usr/lib/p7zip") FSTRING_PATH_SEPARATOR;
+#else
   return FTEXT(".") FSTRING_PATH_SEPARATOR;
+#endif
 }
 
 }}
