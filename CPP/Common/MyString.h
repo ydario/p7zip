@@ -22,7 +22,7 @@ wchar_t * wcsstr(const wchar_t *wcs1, const wchar_t *wcs2);
 #include "MyTypes.h"
 #include "MyVector.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__OS2__)
 #define IS_PATH_SEPAR(c) ((c) == '\\' || (c) == '/')
 #else
 #define IS_PATH_SEPAR(c) ((c) == CHAR_PATH_SEPARATOR)

@@ -543,7 +543,7 @@ static HRESULT EnumerateDirItems(
         const UString &name = item.PathParts.Front();
         FString fullPath = phyPrefix + us2fs(name);
 
-        #if defined(_WIN32) && !defined(UNDER_CE)
+        #if defined(__OS2__) || (defined(_WIN32) && !defined(UNDER_CE))
         bool needAltStreams = true;
         #endif
 
@@ -561,7 +561,7 @@ static HRESULT EnumerateDirItems(
                So we ignore alt streams for these cases */
             if (name.IsEmpty())
             {
-              #if defined(_WIN32) && !defined(UNDER_CE)
+              #if defined(__OS2__) || (defined(_WIN32) && !defined(UNDER_CE))
               needAltStreams = false;
               #endif
 
@@ -574,7 +574,7 @@ static HRESULT EnumerateDirItems(
 
               fullPath = FCHAR_PATH_SEPARATOR;
             }
-            #if defined(_WIN32) && !defined(UNDER_CE)
+            #if defined(__OS2__) || (defined(_WIN32) && !defined(UNDER_CE))
             else if (item.IsDriveItem())
             {
               needAltStreams = false;
@@ -685,7 +685,7 @@ static HRESULT EnumerateDirItems(
           {
             if (nextNode.Name.IsEmpty())
               fullPath = FCHAR_PATH_SEPARATOR;
-            #ifdef _WIN32
+            #if defined(_WIN32) || defined(__OS2__)
             else if (NWildcard::IsDriveColonName(nextNode.Name))
               fullPath.Add_PathSepar();
             #endif

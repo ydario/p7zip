@@ -38,7 +38,7 @@ struct CItem
   bool ForDir;
   bool WildcardMatching;
   
-  #ifdef _WIN32
+  #if defined(__OS2__) || defined(_WIN32)
   bool IsDriveItem() const
   {
     return PathParts.Size() == 1 && !ForFile && ForDir && IsDriveColonName(PathParts[0]);

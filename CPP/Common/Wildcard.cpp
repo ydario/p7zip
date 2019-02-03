@@ -489,7 +489,7 @@ static unsigned GetNumPrefixParts(const UStringVector pathParts)
   if (pathParts.IsEmpty())
     return 0;
   
-  #ifdef _WIN32
+  #if defined(__OS2__) || defined(_WIN32)
   
   if (IsDriveColonName(pathParts[0]))
     return 1;
