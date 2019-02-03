@@ -9,6 +9,9 @@
 #elif defined(hpux) || defined(__hpux)
 #include <sys/param.h>
 #include <sys/pstat.h>
+#elif defined(__OS2__)
+#define INCL_BASE
+#include <os2.h>
 #endif
 
 #if defined(__NETWARE__)
@@ -87,6 +90,13 @@ namespace NWindows
 			if (nbcpu < 1) nbcpu = 1;
 			return nbcpu;
 		}
+		#elif defined (__OS2__)
+		UInt32 GetNumberOfProcessors() {
+		    ULONG nbcpu;
+		    if (DosQuerySysInfo(QSV_NUMPROCESSORS, QSV_NUMPROCESSORS,
+							    &nbcpu, sizeof(nbcpu)) != 0)  nbcpu = 1;
+			return nbcpu;
+		}
 		#else
 		#warning Generic GetNumberOfProcessors
 		UInt32 GetNumberOfProcessors() {
@@ -159,6 +169,11 @@ namespace NWindows
 			get_system_info(&info);
 			size = info.max_pages;
 			size *= 4096;
+#elif defined (__OS2__)
+			ULONG memsize[2];
+			if (DosQuerySysInfo(QSV_TOTPHYSMEM, QSV_TOTRESMEM,
+								&memsize, sizeof(memsize)) == 0)
+					size = (3 * (memsize[0] - memsize[1])) / 4;
 #else
 #warning Generic GetRamSize
 			isDefined = false;

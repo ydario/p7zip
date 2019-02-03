@@ -104,6 +104,19 @@ static void GetCpuName(AString &s)
 
 void mySplitCommandLine(int numArguments, char *arguments[],UStringVector &parts) {
 
+#ifdef __OS2__
+    char fullName[MAX_PATH];
+    char *arg0 = arguments[0];
+
+    if (_execname(fullName,sizeof(fullName))!=0)
+      strupr(strcpy(fullName,arguments[0]));
+
+    for(int i=0;fullName[i];i++)
+      if (fullName[i] == '\\') fullName[i] = '/';
+
+    arguments[0] = fullName;
+#endif
+
   { // define P7ZIP_HOME_DIR
     static char p7zip_home_dir[MAX_PATH];
     AString dir,name;
@@ -152,6 +165,9 @@ void mySplitCommandLine(int numArguments, char *arguments[],UStringVector &parts
       UString tmp = MultiByteToUnicodeString(arguments[ind]);
       // tmp.Trim(); " " is a valid filename ...
       if (!tmp.IsEmpty()) {
+#ifdef __OS2__
+        tmp.Replace(L'\\', L'/');
+#endif
         parts.Add(tmp);
       }
       // try to hide the password
@@ -165,6 +181,10 @@ void mySplitCommandLine(int numArguments, char *arguments[],UStringVector &parts
       }
     }
   }
+
+#ifdef __OS2__
+  arguments[0] = arg0;
+#endif
 }
 
 const char *my_getlocale(void) {

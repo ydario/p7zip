@@ -326,7 +326,11 @@ bool CFindFile::FindFirst(CFSTR cfWildcard, CFileInfo &fi, bool ignoreLink)
 
   struct dirent *dp;
   while ((dp = readdir(_dirp)) != NULL) {
+#ifdef __OS2__
+    if (filter_pattern(dp->d_name,(const char *)_pattern,1) == 1) {
+#else
     if (filter_pattern(dp->d_name,(const char *)_pattern,0) == 1) {
+#endif
       int retf = fillin_CFileInfo(fi,(const char *)_directory,dp->d_name,ignoreLink);
       if (retf)
       {
@@ -359,7 +363,11 @@ bool CFindFile::FindNext(CFileInfo &fi)
 
   struct dirent *dp;
   while ((dp = readdir(_dirp)) != NULL) {
+#ifdef __OS2__
+      if (filter_pattern(dp->d_name,(const char *)_pattern,1) == 1) {
+#else
       if (filter_pattern(dp->d_name,(const char *)_pattern,0) == 1) {
+#endif
         int retf = fillin_CFileInfo(fi,(const char *)_directory,dp->d_name,false);
         if (retf)
         {

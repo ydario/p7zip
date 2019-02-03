@@ -95,11 +95,13 @@ bool CLibrary::Load(LPCTSTR lpLibFileName)
   strcpy(name,nameWindowToUnix(lpLibFileName));
 #endif
 
+#ifndef  __OS2__
   // replace ".dll" with ".so"
   size_t len = strlen(name);
   if ((len >=4) && (strcmp(name+len-4,".dll") == 0)) {
     strcpy(name+len-4,".so");
   }
+#endif
 
   TRACEN((printf("CLibrary::Load(this=%p,%ls) => %s\n",(void *)this,lpLibFileName,name)))
 

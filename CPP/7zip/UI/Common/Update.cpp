@@ -352,7 +352,7 @@ FString CArchivePath::GetTempPath() const
 static const wchar_t *kDefaultArcType = L"7z";
 static const wchar_t *kDefaultArcExt = L"7z";
 static const char *kSFXExtension =
-  #ifdef _WIN32
+  #if defined( _WIN32 ) || defined( __OS2__ )
     "exe";
   #else
     "";

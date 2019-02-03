@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#include <io.h>
 #endif
 
 #ifdef SUPPORT_DEVICE_FILE
@@ -189,6 +190,13 @@ STDMETHODIMP CInFileStream::Read(void *data, UInt32 size, UInt32 *processedSize)
   return S_OK;
 
   #endif
+}
+
+CStdInFileStream::CStdInFileStream()
+{
+#ifdef __OS2__
+  _setmode(0, O_BINARY);
+#endif
 }
 
 #ifdef UNDER_CE
@@ -412,6 +420,13 @@ STDMETHODIMP COutFileStream::SetSize(UInt64 newSize)
 HRESULT COutFileStream::GetSize(UInt64 *size)
 {
   return ConvertBoolToHRESULT(File.GetLength(*size));
+}
+
+CStdOutFileStream::CStdOutFileStream() : _size(0)
+{
+#ifdef __OS2__
+  _setmode(1, O_BINARY);
+#endif
 }
 
 #ifdef UNDER_CE

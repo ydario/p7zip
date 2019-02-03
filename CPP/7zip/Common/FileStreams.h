@@ -106,6 +106,7 @@ class CStdInFileStream:
 public:
   MY_UNKNOWN_IMP
 
+  CStdInFileStream();
   virtual ~CStdInFileStream() {}
   STDMETHOD(Read)(void *data, UInt32 size, UInt32 *processedSize);
 };
@@ -163,7 +164,7 @@ public:
   MY_UNKNOWN_IMP
 
   UInt64 GetSize() const { return _size; }
-  CStdOutFileStream(): _size(0) {}
+  CStdOutFileStream();
   virtual ~CStdOutFileStream() {}
   STDMETHOD(Write)(const void *data, UInt32 size, UInt32 *processedSize);
 };

@@ -1,7 +1,9 @@
 #ifndef _BASETYPS_H
 #define _BASETYPS_H
 
-#ifdef ENV_HAVE_GCCVISIBILITYPATCH
+#if defined( __OS2__ )
+  #define DLLEXPORT __declspec(dllexport) _System
+#elif defined( ENV_HAVE_GCCVISIBILITYPATCH )
   #define DLLEXPORT __attribute__ ((visibility("default")))
 #else
   #define DLLEXPORT

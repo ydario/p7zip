@@ -42,7 +42,7 @@
 
     #define ENV_HAVE_GETPASS
 
-    #if !defined(sun)
+    #if !defined(sun) && !defined(__OS2__)
       #define ENV_HAVE_TIMEGM
     #endif
 
