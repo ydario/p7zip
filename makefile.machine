@@ -1,23 +1,29 @@
 #
-# makefile for Linux (x86, PPC, alpha ...)
+# makefile for OS/2 / GCC 4.x / with SSE2 and AES instructions
 #
 
-OPTFLAGS=-O -s
+OPTFLAGS=
 
-ALLFLAGS=${OPTFLAGS} -pipe \
-    	-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE \
-	-DNDEBUG -D_REENTRANT -DENV_UNIX \
-	-D_7ZIP_LARGE_PAGES \
-	$(LOCAL_FLAGS)
+ALLFLAGS=${OPTFLAGS} -m32 -g -Zomf \
+        -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE \
+        -DNDEBUG -D_REENTRANT -DENV_UNIX \
+	-D_7ZIP_ASM \
+        $(LOCAL_FLAGS)
 
-CXX=g++
-CC=gcc
-CC_SHARED=-fPIC
-LINK_SHARED=-fPIC -shared
+CXX=g++ $(ALLFLAGS)
+CC=gcc $(ALLFLAGS)
+CC_SHARED=-Zdll
+LDFLAGS=-Zmap -Zomf -Zhigh-mem 
+LINK_SHARED=-Zdll
+ASM=nasm -f aout
 
-LOCAL_LIBS=-lpthread
-LOCAL_LIBS_DLL=$(LOCAL_LIBS) -ldl
+LOCAL_LIBS=-lpthread -lcx0
+LOCAL_LIBS_DLL=$(LOCAL_LIBS)
 
-OBJ_CRC32=$(OBJ_CRC32_C)
-OBJ_AES=
+CPU=x86
+OBJ_CRC32=$(OBJ_CRC32_x86)
+OBJ_AES=AesOpt.o
+
+BINSUFFIX=.exe
+SOSUFFIX=.dll
 

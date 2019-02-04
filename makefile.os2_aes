@@ -2,9 +2,9 @@
 # makefile for OS/2 / GCC 4.x / with SSE2 and AES instructions
 #
 
-OPTFLAGS=-O2 -march=i486 -mtune=i686
+OPTFLAGS=
 
-ALLFLAGS=${OPTFLAGS} -m32 -s -Zomf -Zhigh-mem \
+ALLFLAGS=${OPTFLAGS} -m32 -g -Zomf \
         -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE \
         -DNDEBUG -D_REENTRANT -DENV_UNIX \
 	-D_7ZIP_ASM \
@@ -13,10 +13,11 @@ ALLFLAGS=${OPTFLAGS} -m32 -s -Zomf -Zhigh-mem \
 CXX=g++ $(ALLFLAGS)
 CC=gcc $(ALLFLAGS)
 CC_SHARED=-Zdll
+LDFLAGS=-Zmap -Zomf -Zhigh-mem 
 LINK_SHARED=-Zdll
 ASM=nasm -f aout
 
-LOCAL_LIBS=-lpthread
+LOCAL_LIBS=-lpthread -lcx0
 LOCAL_LIBS_DLL=$(LOCAL_LIBS)
 
 CPU=x86
